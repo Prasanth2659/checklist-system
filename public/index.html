@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checklist Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .container {
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .results-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 500px;
+        }
+        .rule {
+            margin: 10px 0;
+        }
+        .passed {
+            color: green;
+        }
+        .failed {
+            color: red;
+        }
+        @media (max-width: 600px) {
+            .results-container {
+                width: 100%;
+                padding: 10px;
+            }
+            .container {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Checklist Results</h1>
+        <div class="results-container" id="results"></div>
+    </div>
+    <script>
+        async function fetchChecklist() {
+            const response = await fetch('/checklist');
+            const results = await response.json();
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '';
+            results.forEach(result => {
+                const div = document.createElement('div');
+                div.className = `rule ${result.passed ? 'passed' : 'failed'}`;
+                div.textContent = `${result.name}: ${result.passed ? 'Passed' : 'Failed'}`;
+                resultsDiv.appendChild(div);
+            });
+        }
+        fetchChecklist();
+    </script>
+</body>
+</html>
