@@ -3,10 +3,11 @@ const axios = require('axios');
 const evaluateRules = require('./rules');
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 const API_URL = 'http://qa-gb.api.dynamatix.com:3100/api/applications/getApplicationById/67339ae56d5231c1a2c63639';
 
+// Serve static files from the public directory
 app.use(express.static('public'));
 
 app.get('/checklist', async (req, res) => {
